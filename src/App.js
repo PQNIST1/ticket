@@ -1,31 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 import Ticket from './component/ticket';
+import {  Route, Routes, useLocation } from 'react-router-dom';
 
 const App = () => {
-    const [data, setData] = useState([]);
-    const location = useLocation();
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<TicketWithLocation />} />
+      </Routes>
+    </div>
+  );
+};
 
-    useEffect(() => {
-        const query = new URLSearchParams(location.search);
-        const jsonData = query.get('data');
+const TicketWithLocation = () => {
+  const location = useLocation();
+  const [data, setData] = React.useState();
+ 
 
-        if (jsonData) {
-            try {
-                const parsedData = JSON.parse(decodeURIComponent(jsonData));
-                setData(parsedData);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        }
-    }, [location.search]);
+  React.useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const jsonData = query.get('data');
 
+    if (jsonData) {
+      try {
+        const parsedData = JSON.parse(decodeURIComponent(jsonData));
+        setData(parsedData);
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
+    }
+  }, [location.search]);
 
-    return (
-        <div className="App">
-            <Ticket data={data}/>
-        </div>
-    );
+  return <Ticket data={data} />;
 };
 
 export default App;

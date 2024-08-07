@@ -1,21 +1,22 @@
 import React from 'react';
 import Ticket from './component/ticket';
-import {  Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 const App = () => {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<TicketWithLocation />} />
-      </Routes>
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/" element={<TicketWithLocation />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
 const TicketWithLocation = () => {
   const location = useLocation();
   const [data, setData] = React.useState();
- 
 
   React.useEffect(() => {
     const query = new URLSearchParams(location.search);
